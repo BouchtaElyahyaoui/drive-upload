@@ -1,2 +1,0 @@
-[build]
-command = "pnpm install && your_build_command_here"
