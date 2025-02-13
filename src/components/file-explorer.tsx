@@ -28,7 +28,7 @@ export function FileExplorer() {
 
   const handleRename = (id: string) => {
     setEditingId(id)
-    setEditingName(items.find((item) => item.id === id)?.name || "")
+    setEditingName(items.find((item) => item.id === id)?.name ?? "")
   }
 
   const handleSaveRename = () => {
@@ -71,7 +71,7 @@ export function FileExplorer() {
               )}
             </TableCell>
             <TableCell>{item.type}</TableCell>
-            <TableCell>{item.size || "-"}</TableCell>
+            <TableCell>{item.size ?? "-"}</TableCell>
             <TableCell>{item.modifiedAt}</TableCell>
             <TableCell>
               <DropdownMenu>
