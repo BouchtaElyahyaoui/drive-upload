@@ -1,19 +1,18 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Button } from "~/components/ui/button"
-import { Input } from "~/components/ui/input"
-import { FileUploader } from "~/components/file-uploader"
-import { FileExplorer } from "~/components/file-explorer"
+import { useState } from "react";
+import { Button } from "~/components/ui/button";
+import { Input } from "~/components/ui/input";
+import { FileUploader } from "~/components/file-uploader";
+import { FileExplorer } from "~/components/file-explorer";
 
 export default function Home() {
-  const [newFolderName, setNewFolderName] = useState("")
+  const [newFolderName, setNewFolderName] = useState("");
 
   const handleCreateFolder = () => {
-    // Implement folder creation logic here
-    console.log("Creating folder:", newFolderName)
-    setNewFolderName("")
-  }
+    console.log("Creating folder:", newFolderName);
+    setNewFolderName("");
+  };
 
   return (
     <div className="space-y-4">
@@ -30,6 +29,5 @@ export default function Home() {
       <FileUploader />
       <FileExplorer />
     </div>
-  )
+  );
 }
-
