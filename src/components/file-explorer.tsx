@@ -6,6 +6,7 @@ import { Input } from "~/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "~/components/ui/table"
 import { File, Folder, MoreVertical, Pencil, Trash } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "~/components/ui/dropdown-menu"
+import { mockFiles, mockFolders } from "~/lib/utils"
 
 type Item = {
   id: string
@@ -16,12 +17,21 @@ type Item = {
 }
 
 export function FileExplorer() {
+  const [currentFolder,setCurrentFolder] = useState<string>("root")
   const [items, setItems] = useState<Item[]>([
     { id: "1", name: "Documents", type: "folder", modifiedAt: "2023-05-01" },
     { id: "2", name: "Images", type: "folder", modifiedAt: "2023-05-02" },
     { id: "3", name: "report.pdf", type: "file", size: "2.5 MB", modifiedAt: "2023-05-03" },
     { id: "4", name: "presentation.pptx", type: "file", size: "5.1 MB", modifiedAt: "2023-05-04" },
   ])
+
+  const getCurrentFiles = () => {
+    return mockFiles.filter((file) => file.parent === currentFolder);
+  }
+
+  const getCurrentFolders = () => {
+    return mockFolders.filter((folder) => folder.parent === currentFolder)
+  }
 
   const [editingId, setEditingId] = useState<string | null>(null)
   const [editingName, setEditingName] = useState("")
