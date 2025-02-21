@@ -22,7 +22,9 @@ export default function SandboxPage() {
             mockFiles.map((file, index) => ({
               id: index + 1,
               name: file.name,
-              parent: index !== 0 ? 1 : null,
+              parent: index !== 0 ? 1 : index,
+              size: Number(file.size),
+              url: file.url,
             })),
           );
         }}
