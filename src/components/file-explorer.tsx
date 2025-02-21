@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import {
@@ -28,6 +28,7 @@ import { type Folder, type File, mockFiles, mockFolders } from "~/lib/utils";
 
 export function FileExplorer() {
   const [currentFolder, setCurrentFolder] = useState<string>("root");
+  console.log("🚀 ~ FileExplorer ~ currentFolder:", currentFolder);
 
   const getCurrentFiles = () => {
     return mockFiles.filter((file) => file.parent === currentFolder);
@@ -37,8 +38,17 @@ export function FileExplorer() {
     return mockFolders.filter((folder) => folder.parent === currentFolder);
   };
 
+  const handleFolderClick = (id: string) => {
+    setCurrentFolder(id);
+  };
+
   const [folders, setFolders] = useState<Folder[]>(getCurrentFolders());
   const [files, setCurrentFiles] = useState<File[]>(getCurrentFiles());
+
+  useEffect(() => {
+    setFolders(getCurrentFolders());
+    setCurrentFiles(getCurrentFiles());
+  }, [currentFolder]);
 
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editingName, setEditingName] = useState("");
@@ -85,7 +95,10 @@ export function FileExplorer() {
                   className="w-full"
                 />
               ) : (
-                <div className="flex items-center">
+                <div
+                  className="flex items-center"
+                  onClick={() => handleFolderClick(item.id)}
+                >
                   {item.type === "folder" ? (
                     <FolderIcon className="mr-2 h-4 w-4" />
                   ) : (
