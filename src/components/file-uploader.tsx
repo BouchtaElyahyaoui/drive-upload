@@ -10,10 +10,9 @@ export function FileUploader() {
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     // Simulate file upload progress
-    let progress = 0;
+    const progress = 0;
     // use files size to calculate progress
     const totalSize = acceptedFiles.reduce((acc, file) => acc + file.size, 0);
-
   }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });

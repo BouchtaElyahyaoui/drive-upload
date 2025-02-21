@@ -33,7 +33,7 @@ export const folders = createTable(
       .primaryKey()
       .autoincrement(),
     name: text("name").notNull(),
-    parent: bigint("parent", { mode: "number", unsigned: true }).notNull(),
+    parent: bigint("parent", { mode: "number", unsigned: true }),
   },
   (tempTable) => {
     return [index("parent_index").on(tempTable.parent)];
