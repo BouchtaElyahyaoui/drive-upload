@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import {
@@ -24,24 +24,30 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
-import { type File, type Folder, mockFiles, mockFolders } from "~/lib/utils";
+import { type Folder, mockFiles } from "~/lib/utils";
 import { useFolder } from "~/contexts/folder-context";
 
 export function FileExplorer() {
-  const { folders, currentPath, navigateToFolder } = useFolder();
-  const currentFolderId = currentPath[currentPath.length - 1].id;
+  const {
+    folders,
+    currentPath,
+    navigateToFolder,
+    handleSaveRename,
+    handleDelete,
+  } = useFolder();
+  const currentFolderId = currentPath[currentPath.length - 1]?.id ?? "root";
 
   const items: Folder[] = folders.filter(
     (folder) => folder.parent === currentFolderId,
   );
 
-  const [currentFolder, setCurrentFolder] = useState<string>("root");
-
   const getCurrentFiles = () => {
-    return mockFiles.filter((file) => file.parent === currentFolder);
+    return mockFiles.filter((file) => file.parent === currentFolderId);
   };
 
-  const [files, setCurrentFiles] = useState<File[]>(getCurrentFiles());
+  const files = getCurrentFiles().filter(
+    (file) => file.type === "file" && file.parent === currentFolderId,
+  );
 
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editingName, setEditingName] = useState("");
@@ -70,8 +76,15 @@ export function FileExplorer() {
                 <Input
                   value={editingName}
                   onChange={(e) => setEditingName(e.target.value)}
-                  onBlur={handleSaveRename}
-                  onKeyPress={(e) => e.key === "Enter" && handleSaveRename()}
+                  onBlur={() => {
+                    handleSaveRename(item.id, editingName);
+                    setEditingId(null);
+                  }}
+                  onKeyDown={(e) =>
+                    e.key === "Enter" &&
+                    handleSaveRename(item.id, editingName) &&
+                    setEditingId(null)
+                  }
                   className="w-full"
                 />
               ) : (
@@ -117,20 +130,10 @@ export function FileExplorer() {
         {files.map((item) => (
           <TableRow key={item.id}>
             <TableCell className="font-medium">
-              {editingId === item.id ? (
-                <Input
-                  value={editingName}
-                  onChange={(e) => setEditingName(e.target.value)}
-                  onBlur={handleSaveRename}
-                  onKeyPress={(e) => e.key === "Enter" && handleSaveRename()}
-                  className="w-full"
-                />
-              ) : (
-                <div className="flex items-center">
-                  <FileIcon className="mr-2 h-4 w-4" />
-                  {item.name}
-                </div>
-              )}
+              <div className="flex items-center">
+                <FileIcon className="mr-2 h-4 w-4" />
+                {item.name}
+              </div>
             </TableCell>
             <TableCell>{item.type}</TableCell>
             <TableCell>-</TableCell>
