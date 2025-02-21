@@ -24,31 +24,24 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
-import { type Folder, type File, mockFiles, mockFolders } from "~/lib/utils";
+import { type File, type Folder, mockFiles, mockFolders } from "~/lib/utils";
+import { useFolder } from "~/contexts/folder-context";
 
 export function FileExplorer() {
+  const { folders, currentPath, navigateToFolder } = useFolder();
+  const currentFolderId = currentPath[currentPath.length - 1].id;
+
+  const items: Folder[] = folders.filter(
+    (folder) => folder.parent === currentFolderId,
+  );
+
   const [currentFolder, setCurrentFolder] = useState<string>("root");
-  console.log("🚀 ~ FileExplorer ~ currentFolder:", currentFolder);
 
   const getCurrentFiles = () => {
     return mockFiles.filter((file) => file.parent === currentFolder);
   };
 
-  const getCurrentFolders = () => {
-    return mockFolders.filter((folder) => folder.parent === currentFolder);
-  };
-
-  const handleFolderClick = (id: string) => {
-    setCurrentFolder(id);
-  };
-
-  const [folders, setFolders] = useState<Folder[]>(getCurrentFolders());
   const [files, setCurrentFiles] = useState<File[]>(getCurrentFiles());
-
-  useEffect(() => {
-    setFolders(getCurrentFolders());
-    setCurrentFiles(getCurrentFiles());
-  }, [currentFolder]);
 
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editingName, setEditingName] = useState("");
@@ -56,19 +49,6 @@ export function FileExplorer() {
   const handleRename = (id: string) => {
     setEditingId(id);
     setEditingName(folders.find((item) => item.id === id)?.name ?? "");
-  };
-
-  const handleSaveRename = () => {
-    setFolders((prevItems) =>
-      prevItems.map((item) =>
-        item.id === editingId ? { ...item, name: editingName } : item,
-      ),
-    );
-    setEditingId(null);
-  };
-
-  const handleDelete = (id: string) => {
-    setFolders((prevItems) => prevItems.filter((item) => item.id !== id));
   };
 
   return (
@@ -83,7 +63,7 @@ export function FileExplorer() {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {folders.map((item) => (
+        {items.map((item) => (
           <TableRow key={item.id}>
             <TableCell className="font-medium">
               {editingId === item.id ? (
@@ -97,7 +77,9 @@ export function FileExplorer() {
               ) : (
                 <div
                   className="flex items-center"
-                  onClick={() => handleFolderClick(item.id)}
+                  onClick={() =>
+                    item.type === "folder" && navigateToFolder(item.id)
+                  }
                 >
                   {item.type === "folder" ? (
                     <FolderIcon className="mr-2 h-4 w-4" />

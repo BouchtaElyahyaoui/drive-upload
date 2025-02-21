@@ -5,6 +5,7 @@ import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { FileUploader } from "~/components/file-uploader";
 import { FileExplorer } from "~/components/file-explorer";
+import { Breadcrumbs } from "~/components/breadcrumbs";
 
 export default function Home() {
   const [newFolderName, setNewFolderName] = useState("");
@@ -16,6 +17,7 @@ export default function Home() {
 
   return (
     <div className="space-y-4">
+      <Breadcrumbs />
       <div className="flex items-center space-x-2">
         <Input
           type="text"
