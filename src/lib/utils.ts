@@ -31,7 +31,7 @@ export const mockFolders: Folder[] = [
 
 export const mockFiles: File[] = [
   {
-    id: "file1",
+    id: "1",
     name: "Resume.pdf",
     type: "file",
     url: "https://example.com/files/resume.pdf",
@@ -39,7 +39,7 @@ export const mockFiles: File[] = [
     size: "500KB",
   },
   {
-    id: "file2",
+    id: "2",
     name: "CoverLetter.docx",
     type: "file",
     url: "https://example.com/files/coverletter.docx",
@@ -47,7 +47,7 @@ export const mockFiles: File[] = [
     size: "300KB",
   },
   {
-    id: "file3",
+    id: "3",
     name: "Photo1.jpg",
     type: "file",
     url: "https://example.com/files/photo1.jpg",
@@ -55,7 +55,7 @@ export const mockFiles: File[] = [
     size: "2MB",
   },
   {
-    id: "file4",
+    id: "4",
     name: "Photo2.png",
     type: "file",
     url: "https://example.com/files/photo2.png",
@@ -63,7 +63,7 @@ export const mockFiles: File[] = [
     size: "1.5MB",
   },
   {
-    id: "file5",
+    id: "5",
     name: "Presentation.pptx",
     type: "file",
     url: "https://example.com/files/presentation.pptx",
@@ -71,7 +71,7 @@ export const mockFiles: File[] = [
     size: "3MB",
   },
   {
-    id: "file6",
+    id: "6",
     name: "Report.pdf",
     type: "file",
     url: "https://example.com/files/report.pdf",
